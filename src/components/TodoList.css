@@ -1,0 +1,262 @@
+.todo-list-container {
+   max-width: 1000px;
+   margin: 2rem auto 0;
+   padding: 2rem;
+   background: #ffffff;
+   border-radius: 12px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 2rem;
+}
+
+.header-buttons {
+   display: flex;
+   gap: 0.5rem;
+}
+
+.header h3 {
+   color: #333;
+   font-size: 1.5rem;
+   margin: 0;
+}
+
+.refresh-button,
+.diagnostic-button {
+   background: #f3f4f6;
+   border: 1px solid #d1d5db;
+   padding: 0.5rem 1rem;
+   border-radius: 6px;
+   cursor: pointer;
+   font-size: 0.875rem;
+   transition: all 0.2s ease;
+}
+
+.refresh-button:hover,
+.diagnostic-button:hover {
+   background: #e5e7eb;
+}
+
+.diagnostic-button {
+   background: #fef3c7;
+   border-color: #fde68a;
+   color: #92400e;
+}
+
+.diagnostic-button:hover {
+   background: #fde68a;
+}
+
+.loading {
+   text-align: center;
+   padding: 2rem;
+   color: #6b7280;
+   font-style: italic;
+}
+
+.error-message {
+   background-color: #fee2e2;
+   color: #991b1b;
+   padding: 1rem;
+   border-radius: 8px;
+   margin-bottom: 1rem;
+   text-align: center;
+}
+
+.retry-button {
+   background: #ef4444;
+   color: white;
+   border: none;
+   padding: 0.5rem 1rem;
+   border-radius: 6px;
+   cursor: pointer;
+   display: block;
+   margin: 0 auto;
+}
+
+.retry-button:hover {
+   background: #dc2626;
+}
+
+.empty-state {
+   text-align: center;
+   padding: 3rem 2rem;
+   color: #6b7280;
+}
+
+.empty-state p {
+   margin: 0.5rem 0;
+}
+
+.todos-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+   gap: 1.5rem;
+}
+
+.todo-card {
+   background: #f8fafc;
+   border: 1px solid #e2e8f0;
+   border-radius: 8px;
+   padding: 1.5rem;
+   transition: all 0.2s ease;
+}
+
+.todo-card:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.todo-title {
+   color: #1f2937;
+   font-size: 1.1rem;
+   font-weight: 600;
+   margin: 0 0 1rem 0;
+   line-height: 1.4;
+}
+
+.todo-tags {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.5rem;
+   margin-bottom: 1rem;
+}
+
+.tag {
+   background: #ddd6fe;
+   color: #5b21b6;
+   padding: 0.25rem 0.75rem;
+   border-radius: 20px;
+   font-size: 0.75rem;
+   font-weight: 500;
+}
+
+.todo-meta {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-top: 1rem;
+   padding-top: 1rem;
+   border-top: 1px solid #e2e8f0;
+}
+
+.due-date {
+   color: #6b7280;
+   font-size: 0.875rem;
+}
+
+.completed-badge {
+   background: #d1fae5;
+   color: #065f46;
+   padding: 0.25rem 0.5rem;
+   border-radius: 4px;
+   font-size: 0.75rem;
+   font-weight: 500;
+}
+
+/* Estilos para todo completado */
+.todo-card.completed {
+   opacity: 0.7;
+   background: #f9fafb;
+}
+
+.todo-card.completed .todo-title {
+   text-decoration: line-through;
+   color: #6b7280;
+}
+
+/* Estilos para botones de acción */
+.todo-actions {
+   display: flex;
+   gap: 0.5rem;
+   margin-top: 1rem;
+   padding-top: 1rem;
+   border-top: 1px solid #e2e8f0;
+}
+
+.action-button {
+   flex: 1;
+   padding: 0.5rem 0.75rem;
+   border: none;
+   border-radius: 6px;
+   font-size: 0.75rem;
+   font-weight: 500;
+   cursor: pointer;
+   transition: all 0.2s ease;
+}
+
+.action-button:disabled {
+   cursor: not-allowed;
+   opacity: 0.6;
+}
+
+.complete-button {
+   background: #dcfce7;
+   color: #166534;
+   border: 1px solid #bbf7d0;
+}
+
+.complete-button:hover:not(:disabled) {
+   background: #bbf7d0;
+}
+
+.uncomplete-button {
+   background: #fef3c7;
+   color: #92400e;
+   border: 1px solid #fde68a;
+}
+
+.uncomplete-button:hover:not(:disabled) {
+   background: #fde68a;
+}
+
+.delete-button {
+   background: #fee2e2;
+   color: #991b1b;
+   border: 1px solid #fca5a5;
+}
+
+.delete-button:hover:not(:disabled) {
+   background: #fca5a5;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+   .todo-list-container {
+      margin: 1rem;
+      padding: 1.5rem;
+   }
+
+   .header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+   }
+
+   .header-buttons {
+      justify-content: center;
+   }
+
+   .todos-grid {
+      grid-template-columns: 1fr;
+   }
+
+   .todo-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+   }
+
+   .todo-actions {
+      flex-direction: column;
+   }
+
+   .action-button {
+      font-size: 0.875rem;
+      padding: 0.75rem;
+   }
+}

@@ -1,0 +1,68 @@
+/* Estilos principales de la aplicación */
+.app {
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.app-header {
+   text-align: center;
+   padding: 3rem 2rem 1rem;
+   color: white;
+}
+
+.app-header h1 {
+   font-size: 2.5rem;
+   margin: 0 0 1rem 0;
+   font-weight: 700;
+   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.app-header p {
+   font-size: 1.1rem;
+   margin: 0;
+   opacity: 0.9;
+   max-width: 600px;
+   margin: 0 auto;
+}
+
+.app-main {
+   flex: 1;
+   padding: 2rem 1rem;
+   max-width: 1200px;
+   margin: 0 auto;
+   width: 100%;
+}
+
+.app-footer {
+   background: rgba(0, 0, 0, 0.1);
+   color: white;
+   text-align: center;
+   padding: 1.5rem;
+   margin-top: 2rem;
+}
+
+.app-footer p {
+   margin: 0;
+   opacity: 0.8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+   .app-header {
+      padding: 2rem 1rem 0.5rem;
+   }
+
+   .app-header h1 {
+      font-size: 2rem;
+   }
+
+   .app-header p {
+      font-size: 1rem;
+   }
+
+   .app-main {
+      padding: 1rem 0.5rem;
+   }
+}
