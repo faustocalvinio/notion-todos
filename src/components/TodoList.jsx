@@ -46,7 +46,6 @@ const TodoList = ({ refreshTrigger }) => {
          );
 
          if (result.success) {
-            // Actualizar el estado local
             setTodos((prevTodos) =>
                prevTodos.map((todo) =>
                   todo.id === todoId
@@ -79,7 +78,6 @@ const TodoList = ({ refreshTrigger }) => {
          const result = await notionService.deleteTodo(todoId);
 
          if (result.success) {
-            // Remover del estado local
             setTodos((prevTodos) =>
                prevTodos.filter((todo) => todo.id !== todoId)
             );

@@ -2,14 +2,12 @@ class NotionService {
     constructor() {
         this.apiKey = import.meta.env.VITE_NOTION_API_KEY;
         this.databaseId = import.meta.env.VITE_NOTION_DATABASE_ID;
-        // Usar proxy local en desarrollo, Netlify Functions en producción
         this.baseURL = import.meta.env.DEV ? '/api/notion' : '/.netlify/functions/notion-proxy';
         this.isProduction = !import.meta.env.DEV;
     }
 
     async makeRequest(endpoint, options = {}) {
         if (this.isProduction) {
-            // En producción, usar Netlify Functions
             const url = this.baseURL;
             const body = {
                 path: endpoint,
@@ -39,7 +37,6 @@ class NotionService {
                 throw error;
             }
         } else {
-            // En desarrollo, usar proxy de Vite
             const url = `${this.baseURL}${endpoint}`;
             const config = {
                 headers: {
@@ -81,14 +78,12 @@ class NotionService {
                 },
             };
 
-            // Agregar tags si existen
             if (tags.length > 0) {
                 properties['Tags'] = {
                     multi_select: tags.map(tag => ({ name: tag })),
                 };
             }
 
-            // Agregar fecha de vencimiento si existe
             if (dueDate) {
                 properties['Due'] = {
                     date: {
@@ -128,12 +123,10 @@ class NotionService {
             });
 
             const todos = response.results.map(page => {
-                // Tu base de datos usa status, no checkbox
                 let completed = false;
                 const statusProperty = page.properties['Status'];
 
                 if (statusProperty?.status?.name) {
-                    // Considerar como completado si el status es 'Done', 'Completed', etc.
                     const statusName = statusProperty.status.name.toLowerCase();
                     completed = statusName === 'done' || statusName === 'completed' || statusName === 'complete' || statusName === 'finished';
                 }
@@ -178,7 +171,6 @@ class NotionService {
 
     async updateTodoStatus(todoId, completed = true) {
         try {
-            // Tu base de datos usa status, no checkbox
             const statusValues = completed
                 ? ['Done', 'Completed', 'Complete', 'Finished']
                 : ['Not started', 'To do', 'Todo', 'Pending', 'In progress'];

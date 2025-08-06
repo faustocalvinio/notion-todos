@@ -62,7 +62,6 @@ const TodoForm = ({ onTodoAdded }) => {
             setMessage("✅ Tarea agregada exitosamente a Notion!");
             setFormData({ title: "", tags: [], dueDate: "" });
 
-            // Notificar al componente padre si existe
             if (onTodoAdded) {
                onTodoAdded(result.data);
             }
