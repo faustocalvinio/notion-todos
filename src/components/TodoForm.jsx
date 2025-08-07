@@ -118,8 +118,6 @@ const TodoForm = ({ onTodoAdded }) => {
 
    return (
       <div className="todo-form-container">
-         <h2>Agregar Nueva Tarea a Notion</h2>
-
          <form onSubmit={handleSubmit} className="todo-form">
             <div className="form-group">
                <label htmlFor="title">Título de la tarea *</label>

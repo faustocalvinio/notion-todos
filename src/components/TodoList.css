@@ -227,8 +227,8 @@
 /* Responsive design */
 @media (max-width: 640px) {
    .todo-list-container {
-      margin: 1rem;
-      padding: 1.5rem;
+      margin-top: 10px;
+      padding: 1rem;
    }
 
    .header {
