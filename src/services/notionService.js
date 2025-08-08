@@ -4,7 +4,15 @@ class NotionService {
     constructor() {
         this.apiKey = import.meta.env.VITE_NOTION_API_KEY;
         this.databaseId = import.meta.env.VITE_NOTION_DATABASE_ID;
-        this.baseURL = import.meta.env.DEV ? '/api/notion' : '/.netlify/functions/notion-proxy';
+        // Permite override explícito para entorno preview/local
+        const functionsUrlOverride = import.meta.env.VITE_NETLIFY_FUNCTIONS_URL; // e.g., http://localhost:8888/.netlify/functions/notion-proxy
+        if (import.meta.env.DEV) {
+            this.baseURL = '/api/notion';
+        } else if (functionsUrlOverride) {
+            this.baseURL = functionsUrlOverride;
+        } else {
+            this.baseURL = '/.netlify/functions/notion-proxy';
+        }
         this.isProduction = !import.meta.env.DEV;
 
         // Sync en reconexión
@@ -42,7 +50,7 @@ class NotionService {
 
                 return await response.json();
             } catch (error) {
-                console.error('Notion API request failed:', error);
+                console.error('Notion API request failed:', error, '\nURL:', url, '\nMode:', this.isProduction ? 'prod' : 'dev');
                 throw error;
             }
         } else {
@@ -67,7 +75,7 @@ class NotionService {
 
                 return await response.json();
             } catch (error) {
-                console.error('Notion API request failed:', error);
+                console.error('Notion API request failed:', error, '\nURL:', url, '\nMode:', this.isProduction ? 'prod' : 'dev');
                 throw error;
             }
         }
