@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import notionService from "../services/notionService";
+import offlineService from "../services/offlineService";
 import "./TodoList.css";
 
 const TodoList = ({ refreshTrigger }) => {
@@ -17,6 +18,9 @@ const TodoList = ({ refreshTrigger }) => {
 
          if (result.success) {
             setTodos(result.data);
+            if (result.offline) {
+               setError("Trabajando sin conexión. Mostrando datos en caché.");
+            }
          } else {
             setError(`Error: ${result.error}`);
          }
@@ -53,6 +57,11 @@ const TodoList = ({ refreshTrigger }) => {
                      : todo
                )
             );
+            if (result.offline) {
+               setError(
+                  "Cambio guardado para sincronizar cuando vuelva la conexión."
+               );
+            }
          } else {
             setError(`Error al actualizar: ${result.error}`);
          }
@@ -81,6 +90,9 @@ const TodoList = ({ refreshTrigger }) => {
             setTodos((prevTodos) =>
                prevTodos.filter((todo) => todo.id !== todoId)
             );
+            if (result.offline) {
+               setError("Eliminación pendiente de sincronización.");
+            }
          } else {
             setError(`Error al eliminar: ${result.error}`);
          }
@@ -172,7 +184,14 @@ const TodoList = ({ refreshTrigger }) => {
                         todo.completed ? "completed" : ""
                      }`}
                   >
-                     <h4 className="todo-title">{todo.title}</h4>
+                     <h4 className="todo-title">
+                        {todo.title}{" "}
+                        {todo.pending ? (
+                           <span title="Pendiente de sincronizar">
+                              (pendiente)
+                           </span>
+                        ) : null}
+                     </h4>
 
                      {todo.tags.length > 0 && (
                         <div className="todo-tags">

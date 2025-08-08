@@ -100,7 +100,11 @@ const TodoForm = ({ onTodoAdded }) => {
          );
 
          if (result.success) {
-            setMessage("✅ Tarea agregada exitosamente a Notion!");
+            setMessage(
+               result.offline
+                  ? "🗂️ Tarea guardada offline. Se sincronizará cuando vuelva la conexión."
+                  : "✅ Tarea agregada exitosamente a Notion!"
+            );
             setFormData({ title: "", tags: [], dueDate: "" });
 
             if (onTodoAdded) {
