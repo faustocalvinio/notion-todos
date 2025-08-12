@@ -17,6 +17,8 @@ const TodoForm = ({ onTodoAdded }) => {
       title: "",
       tags: [],
       dueDate: "",
+      content: "",
+      iconEmoji: "",
    });
    const [isLoading, setIsLoading] = useState(false);
    const [message, setMessage] = useState("");
@@ -96,12 +98,20 @@ const TodoForm = ({ onTodoAdded }) => {
          const result = await notionService.addTodo(
             formData.title.trim(),
             tags,
-            dueDate
+            dueDate,
+            formData.content.trim() || null,
+            formData.iconEmoji.trim() || null
          );
 
          if (result.success) {
             setMessage("✅ Tarea agregada exitosamente a Notion!");
-            setFormData({ title: "", tags: [], dueDate: "" });
+            setFormData({
+               title: "",
+               tags: [],
+               dueDate: "",
+               content: "",
+               iconEmoji: "",
+            });
 
             if (onTodoAdded) {
                onTodoAdded(result.data);
@@ -201,6 +211,36 @@ const TodoForm = ({ onTodoAdded }) => {
                   name="dueDate"
                   value={formData.dueDate}
                   onChange={handleInputChange}
+                  disabled={isLoading}
+               />
+            </div>
+
+            <div className="form-group">
+               <label htmlFor="iconEmoji">Emoji</label>
+               <input
+                  type="text"
+                  id="iconEmoji"
+                  name="iconEmoji"
+                  maxLength={2}
+                  value={formData.iconEmoji}
+                  onChange={handleInputChange}
+                  placeholder="Ej: 🔧"
+                  disabled={isLoading}
+               />
+               <small>
+                  Deja vacío si no quieres ícono. Pega un emoji (1 carácter).
+               </small>
+            </div>
+
+            <div className="form-group">
+               <label htmlFor="content">Contenido (sección derecha)</label>
+               <textarea
+                  id="content"
+                  name="content"
+                  value={formData.content}
+                  onChange={handleInputChange}
+                  placeholder="Escribe notas o contenido adicional. Usa doble Enter para separar párrafos."
+                  rows={5}
                   disabled={isLoading}
                />
             </div>

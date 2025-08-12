@@ -20,6 +20,10 @@
    gap: 1.5rem;
 }
 
+textarea{
+   resize: vertical;
+}
+
 .form-group {
    display: flex;
    flex-direction: column;

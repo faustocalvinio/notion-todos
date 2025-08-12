@@ -64,7 +64,7 @@ class NotionService {
         }
     }
 
-    async addTodo(title, tags = [], dueDate = null) {
+    async addTodo(title, tags = [], dueDate = null, content = null, iconEmoji = null) {
         try {
             const properties = {
                 'Task name': {
@@ -92,6 +92,43 @@ class NotionService {
                 };
             }
 
+            // Preparar children si llega contenido
+            let children;
+            if (content) {
+                if (Array.isArray(content)) {
+                    children = content;
+                } else if (typeof content === 'string') {
+                    // Separar por doble salto de línea para crear múltiples párrafos
+                    const paragraphs = content
+                        .split(/\n{2,}/)
+                        .map((text) => text.trim())
+                        .filter(Boolean)
+                        .map((text) => ({
+                            type: 'paragraph',
+                            paragraph: {
+                                rich_text: [
+                                    {
+                                        type: 'text',
+                                        text: { content: text },
+                                    },
+                                ],
+                            },
+                        }));
+
+                    // Si el usuario no puso doble salto de línea, crea un único párrafo
+                    children = paragraphs.length > 0 ? paragraphs : [
+                        {
+                            type: 'paragraph',
+                            paragraph: {
+                                rich_text: [
+                                    { type: 'text', text: { content } },
+                                ],
+                            },
+                        },
+                    ];
+                }
+            }
+
             const response = await this.makeRequest('/pages', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -99,6 +136,8 @@ class NotionService {
                         database_id: this.databaseId,
                     },
                     properties,
+                    ...(children ? { children } : {}),
+                    ...(iconEmoji ? { icon: { type: 'emoji', emoji: iconEmoji } } : {}),
                 })
             });
 
@@ -136,6 +175,7 @@ class NotionService {
                     title: page.properties['Task name']?.title[0]?.text?.content || '',
                     tags: page.properties['Tags']?.multi_select?.map(tag => tag.name) || [],
                     dueDate: page.properties['Due']?.date?.start || null,
+                    icon: page.icon?.type === 'emoji' ? page.icon.emoji : null,
                     completed: completed,
                 };
             });
@@ -229,6 +269,24 @@ class NotionService {
                 success: false,
                 error: error.message,
             };
+        }
+    }
+
+    async updateTodoIcon(todoId, emoji = null) {
+        try {
+            const payload = emoji
+                ? { icon: { type: 'emoji', emoji } }
+                : { icon: null };
+
+            const response = await this.makeRequest(`/pages/${todoId}`, {
+                method: 'PATCH',
+                body: JSON.stringify(payload)
+            });
+
+            return { success: true, data: response };
+        } catch (error) {
+            console.error('Error updating todo icon:', error);
+            return { success: false, error: error.message };
         }
     }
 }
