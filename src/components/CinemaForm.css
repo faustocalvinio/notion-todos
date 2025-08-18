@@ -1,0 +1,111 @@
+/* Estilos base heredando del TodoForm */
+.cinema-form-container {
+   max-width: 600px;
+   margin: 0 auto;
+   padding: 2rem;
+   background: #f9f9f9;
+   border-radius: 12px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cinema-form {
+   display: flex;
+   flex-direction: column;
+   gap: 1.5rem;
+}
+
+.form-group {
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
+}
+
+.form-group label {
+   font-weight: 600;
+   color: #333;
+   font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+   padding: 0.75rem;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   font-size: 1rem;
+   transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+   outline: none;
+   border-color: #007acc;
+   box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.1);
+}
+
+.form-group input:disabled,
+.form-group select:disabled,
+.form-group textarea:disabled {
+   background-color: #f5f5f5;
+   cursor: not-allowed;
+}
+
+.form-group small {
+   color: #666;
+   font-size: 0.8rem;
+   margin-top: 0.25rem;
+}
+
+.submit-button {
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   color: white;
+   border: none;
+   padding: 1rem 2rem;
+   border-radius: 8px;
+   font-size: 1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s ease;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+}
+
+.submit-button:hover:not(:disabled) {
+   transform: translateY(-2px);
+   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.submit-button:disabled {
+   background: #ccc;
+   cursor: not-allowed;
+   transform: none;
+}
+
+.message {
+   padding: 1rem;
+   border-radius: 8px;
+   margin-top: 1rem;
+   font-weight: 500;
+   text-align: center;
+}
+
+.message.success {
+   background-color: #d4edda;
+   color: #155724;
+   border: 1px solid #c3e6cb;
+}
+
+.message.error {
+   background-color: #f8d7da;
+   color: #721c24;
+   border: 1px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+   .cinema-form-container {
+      margin: 1rem;
+      padding: 1.5rem;
+   }
+}
