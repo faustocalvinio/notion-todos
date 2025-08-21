@@ -3,9 +3,11 @@
    min-height: 100vh;
    display: flex;
    flex-direction: column;
-   background: #f5f5f5;
+   background: var(--bg-primary);
+   color: var(--text-primary);
+   transition: background-color 0.3s ease, color 0.3s ease;
 }
-.nav-links{
+.nav-links {
    display: flex;
    gap: 1rem;
    margin-left: auto;
@@ -16,13 +18,12 @@
 }
 .nav-links a {
    text-decoration: none;
-   color: #007acc;
+   color: var(--accent-primary);
    font-weight: 600;
    transition: color 0.2s ease;
 }
 .nav-links a:hover {
-
-   color: #005f99;
+   color: var(--accent-secondary);
 }
 .app-main {
    flex: 1;
@@ -36,20 +37,21 @@
    text-align: center;
    margin-bottom: 2rem;
    padding: 2rem;
-   background: white;
+   background: var(--bg-secondary);
    border-radius: 12px;
-   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+   box-shadow: 0 2px 8px var(--shadow-light);
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .welcome-message h2 {
-   color: #333;
+   color: var(--text-primary);
    margin: 0 0 0.5rem 0;
    font-size: 1.8rem;
    font-weight: 600;
 }
 
 .welcome-message p {
-   color: #666;
+   color: var(--text-secondary);
    margin: 0;
    font-size: 1.1rem;
 }
@@ -60,21 +62,21 @@
    flex-direction: column;
    align-items: center;
    justify-content: center;
-   background: #f5f5f5;
+   background: var(--bg-primary);
    gap: 20px;
 }
 
 .loading-container .loading-spinner {
    width: 40px;
    height: 40px;
-   border: 4px solid #f3f3f3;
-   border-top: 4px solid #667eea;
+   border: 4px solid var(--border-color);
+   border-top: 4px solid var(--accent-primary);
    border-radius: 50%;
    animation: spin 1s linear infinite;
 }
 
 .loading-container p {
-   color: #666;
+   color: var(--text-secondary);
    font-size: 16px;
 }
 
@@ -88,12 +90,13 @@
 }
 
 .app-footer {
-   background: white;
-   border-top: 1px solid #e0e0e0;
-   color: #666;
+   background: var(--bg-secondary);
+   border-top: 1px solid var(--border-color);
+   color: var(--text-secondary);
    text-align: center;
    padding: 1.5rem;
    margin-top: 2rem;
+   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .app-footer p {

@@ -2,16 +2,18 @@
    max-width: 600px;
    margin: 0 auto;
    padding: 2rem;
-   background: #ffffff;
+   background: var(--bg-secondary);
    border-radius: 12px;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   box-shadow: 0 4px 6px var(--shadow-light);
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .todo-form-container h2 {
-   color: #333;
+   color: var(--text-primary);
    text-align: center;
    margin-bottom: 2rem;
    font-size: 1.8rem;
+   transition: color 0.3s ease;
 }
 
 .todo-form {
@@ -20,7 +22,7 @@
    gap: 1.5rem;
 }
 
-textarea{
+textarea {
    resize: vertical;
 }
 
@@ -32,36 +34,51 @@ textarea{
 
 .form-group label {
    font-weight: 600;
-   color: #555;
+   color: var(--text-primary);
    font-size: 0.95rem;
+   transition: color 0.3s ease;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea,
+.form-group select {
    padding: 0.75rem;
-   border: 2px solid #e1e5e9;
+   border: 2px solid var(--border-color);
    border-radius: 8px;
    font-size: 1rem;
-   transition: border-color 0.3s ease;
-   background: #ffffff;
+   transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease;
+   background: var(--bg-secondary);
+   color: var(--text-primary);
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
    outline: none;
-   border-color: #4f46e5;
-   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+   border-color: var(--accent-primary);
+   box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
 }
 
-.form-group input:disabled {
-   background-color: #f9fafb;
+.form-group input:disabled,
+.form-group textarea:disabled,
+.form-group select:disabled {
+   background-color: var(--bg-tertiary);
    cursor: not-allowed;
+   opacity: 0.6;
 }
 
-.form-group input::placeholder {
-   color: #9ca3af;
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+   color: var(--text-muted);
 }
 
 .submit-button {
-   background: #4f46e5;
+   background: linear-gradient(
+      135deg,
+      var(--accent-primary) 0%,
+      var(--accent-secondary) 100%
+   );
    color: white;
    border: none;
    padding: 0.875rem 1.5rem;
@@ -74,13 +91,12 @@ textarea{
 }
 
 .submit-button:hover:not(:disabled) {
-   background: #4338ca;
    transform: translateY(-1px);
-   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+   box-shadow: 0 4px 12px var(--shadow-medium);
 }
 
 .submit-button:disabled {
-   background: #9ca3af;
+   background: var(--text-muted);
    cursor: not-allowed;
    transform: none;
    box-shadow: none;
@@ -92,18 +108,20 @@ textarea{
    margin-top: 1rem;
    font-weight: 500;
    text-align: center;
+   transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease;
 }
 
 .message.success {
-   background-color: #d1fae5;
-   color: #065f46;
-   border: 1px solid #a7f3d0;
+   background-color: var(--success);
+   color: white;
+   border: 1px solid var(--success);
 }
 
 .message.error {
-   background-color: #fee2e2;
-   color: #991b1b;
-   border: 1px solid #fca5a5;
+   background-color: var(--error);
+   color: white;
+   border: 1px solid var(--error);
 }
 
 /* Estilos para el selector de etiquetas */
@@ -112,9 +130,10 @@ textarea{
    flex-wrap: wrap;
    gap: 0.75rem;
    padding: 1rem;
-   background: #f8fafc;
-   border: 2px solid #e1e5e9;
+   background: var(--bg-tertiary);
+   border: 2px solid var(--border-color);
    border-radius: 8px;
+   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .tag-option {
@@ -122,8 +141,8 @@ textarea{
    align-items: center;
    gap: 0.5rem;
    padding: 0.5rem 0.75rem;
-   background: #ffffff;
-   border: 1px solid #d1d5db;
+   background: var(--bg-secondary);
+   border: 1px solid var(--border-color);
    border-radius: 6px;
    cursor: pointer;
    transition: all 0.2s ease;
@@ -131,8 +150,8 @@ textarea{
 }
 
 .tag-option:hover {
-   background: #f3f4f6;
-   border-color: #9ca3af;
+   background: var(--bg-tertiary);
+   border-color: var(--border-light);
 }
 
 .tag-option input[type="checkbox"] {
@@ -140,21 +159,27 @@ textarea{
    padding: 0;
    width: auto;
    height: auto;
-   accent-color: #4f46e5;
+   accent-color: var(--accent-primary);
    cursor: pointer;
 }
 
 .tag-label {
    margin: 0 !important;
    font-weight: 500 !important;
-   color: #374151 !important;
+   color: var(--text-primary) !important;
    font-size: 0.875rem !important;
    cursor: pointer;
+   transition: color 0.3s ease;
 }
 
 .tag-option:has(input:checked) {
-   background: #eef2ff;
-   border-color: #4f46e5;
+   background: var(--accent-primary);
+   border-color: var(--accent-primary);
+   color: white;
+}
+
+.tag-option:has(input:checked) .tag-label {
+   color: white !important;
 }
 
 .tag-option:has(input:checked) .tag-label {

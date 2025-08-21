@@ -3,9 +3,10 @@
    max-width: 600px;
    margin: 0 auto;
    padding: 2rem;
-   background: #f9f9f9;
+   background: var(--bg-secondary);
    border-radius: 12px;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   box-shadow: 0 4px 6px var(--shadow-light);
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cinema-form {
@@ -22,43 +23,53 @@
 
 .form-group label {
    font-weight: 600;
-   color: #333;
+   color: var(--text-primary);
    font-size: 0.9rem;
+   transition: color 0.3s ease;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
    padding: 0.75rem;
-   border: 1px solid #ddd;
+   border: 1px solid var(--border-color);
    border-radius: 8px;
    font-size: 1rem;
-   transition: border-color 0.2s ease;
+   transition: border-color 0.2s ease, background-color 0.3s ease,
+      color 0.3s ease;
+   background: var(--bg-secondary);
+   color: var(--text-primary);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
    outline: none;
-   border-color: #007acc;
-   box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.1);
+   border-color: var(--accent-primary);
+   box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.1);
 }
 
 .form-group input:disabled,
 .form-group select:disabled,
 .form-group textarea:disabled {
-   background-color: #f5f5f5;
+   background-color: var(--bg-tertiary);
    cursor: not-allowed;
+   opacity: 0.6;
 }
 
 .form-group small {
-   color: #666;
+   color: var(--text-secondary);
    font-size: 0.8rem;
    margin-top: 0.25rem;
+   transition: color 0.3s ease;
 }
 
 .submit-button {
-   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   background: linear-gradient(
+      135deg,
+      var(--accent-primary) 0%,
+      var(--accent-secondary) 100%
+   );
    color: white;
    border: none;
    padding: 1rem 2rem;
@@ -73,11 +84,11 @@
 
 .submit-button:hover:not(:disabled) {
    transform: translateY(-2px);
-   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+   box-shadow: 0 8px 25px var(--shadow-medium);
 }
 
 .submit-button:disabled {
-   background: #ccc;
+   background: var(--text-muted);
    cursor: not-allowed;
    transform: none;
 }
@@ -88,21 +99,21 @@
    margin-top: 1rem;
    font-weight: 500;
    text-align: center;
+   transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease;
 }
 
 .message.success {
-   background-color: #d4edda;
-   color: #155724;
-   border: 1px solid #c3e6cb;
+   background-color: var(--success);
+   color: white;
+   border: 1px solid var(--success);
 }
 
 .message.error {
-   background-color: #f8d7da;
-   color: #721c24;
-   border: 1px solid #f5c6cb;
-}
-
-/* Responsive */
+   background-color: var(--error);
+   color: white;
+   border: 1px solid var(--error);
+} /* Responsive */
 @media (max-width: 768px) {
    .cinema-form-container {
       margin: 1rem;

@@ -2,9 +2,10 @@
    max-width: 1000px;
    margin: 2rem auto 0;
    padding: 2rem;
-   background: #ffffff;
+   background: var(--bg-secondary);
    border-radius: 12px;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   box-shadow: 0 4px 6px var(--shadow-light);
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header {
@@ -20,55 +21,59 @@
 }
 
 .header h3 {
-   color: #333;
+   color: var(--text-primary);
    font-size: 1.5rem;
    margin: 0;
+   transition: color 0.3s ease;
 }
 
 .refresh-button,
 .diagnostic-button {
-   background: #f3f4f6;
-   border: 1px solid #d1d5db;
+   background: var(--bg-tertiary);
+   border: 1px solid var(--border-color);
    padding: 0.5rem 1rem;
    border-radius: 6px;
    cursor: pointer;
    font-size: 0.875rem;
    transition: all 0.2s ease;
+   color: var(--text-primary);
 }
 
 .refresh-button:hover,
 .diagnostic-button:hover {
-   background: #e5e7eb;
+   background: var(--border-color);
 }
 
 .diagnostic-button {
-   background: #fef3c7;
-   border-color: #fde68a;
-   color: #92400e;
+   background: var(--warning);
+   border-color: var(--warning);
+   color: white;
 }
 
 .diagnostic-button:hover {
-   background: #fde68a;
+   opacity: 0.9;
 }
 
 .loading {
    text-align: center;
    padding: 2rem;
-   color: #6b7280;
+   color: var(--text-secondary);
    font-style: italic;
+   transition: color 0.3s ease;
 }
 
 .error-message {
-   background-color: #fee2e2;
-   color: #991b1b;
+   background-color: var(--error);
+   color: white;
    padding: 1rem;
    border-radius: 8px;
    margin-bottom: 1rem;
    text-align: center;
+   transition: background-color 0.3s ease;
 }
 
 .retry-button {
-   background: #ef4444;
+   background: var(--error);
    color: white;
    border: none;
    padding: 0.5rem 1rem;
@@ -76,16 +81,18 @@
    cursor: pointer;
    display: block;
    margin: 0 auto;
+   transition: background-color 0.3s ease;
 }
 
 .retry-button:hover {
-   background: #dc2626;
+   opacity: 0.9;
 }
 
 .empty-state {
    text-align: center;
    padding: 3rem 2rem;
-   color: #6b7280;
+   color: var(--text-secondary);
+   transition: color 0.3s ease;
 }
 
 .empty-state p {
@@ -99,8 +106,8 @@
 }
 
 .todo-card {
-   background: #f8fafc;
-   border: 1px solid #e2e8f0;
+   background: var(--bg-secondary);
+   border: 1px solid var(--border-color);
    border-radius: 8px;
    padding: 1.5rem;
    transition: all 0.2s ease;
@@ -108,15 +115,16 @@
 
 .todo-card:hover {
    transform: translateY(-2px);
-   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   box-shadow: 0 4px 12px var(--shadow-light);
 }
 
 .todo-title {
-   color: #1f2937;
+   color: var(--text-primary);
    font-size: 1.1rem;
    font-weight: 600;
    margin: 0 0 1rem 0;
    line-height: 1.4;
+   transition: color 0.3s ease;
 }
 
 .todo-tags {
@@ -127,12 +135,13 @@
 }
 
 .tag {
-   background: #ddd6fe;
-   color: #5b21b6;
+   background: var(--accent-primary);
+   color: white;
    padding: 0.25rem 0.75rem;
    border-radius: 20px;
    font-size: 0.75rem;
    font-weight: 500;
+   transition: background-color 0.3s ease;
 }
 
 .todo-meta {
@@ -141,32 +150,36 @@
    align-items: center;
    margin-top: 1rem;
    padding-top: 1rem;
-   border-top: 1px solid #e2e8f0;
+   border-top: 1px solid var(--border-color);
+   transition: border-color 0.3s ease;
 }
 
 .due-date {
-   color: #6b7280;
+   color: var(--text-secondary);
    font-size: 0.875rem;
+   transition: color 0.3s ease;
 }
 
 .completed-badge {
-   background: #d1fae5;
-   color: #065f46;
+   background: var(--success);
+   color: white;
    padding: 0.25rem 0.5rem;
    border-radius: 4px;
    font-size: 0.75rem;
    font-weight: 500;
+   transition: background-color 0.3s ease;
 }
 
 /* Estilos para todo completado */
 .todo-card.completed {
    opacity: 0.7;
-   background: #f9fafb;
+   background: var(--bg-tertiary);
+   transition: all 0.3s ease;
 }
 
 .todo-card.completed .todo-title {
    text-decoration: line-through;
-   color: #6b7280;
+   color: var(--text-muted);
 }
 
 /* Estilos para botones de acción */
@@ -175,7 +188,8 @@
    gap: 0.5rem;
    margin-top: 1rem;
    padding-top: 1rem;
-   border-top: 1px solid #e2e8f0;
+   border-top: 1px solid var(--border-color);
+   transition: border-color 0.3s ease;
 }
 
 .action-button {
@@ -195,33 +209,36 @@
 }
 
 .complete-button {
-   background: #dcfce7;
-   color: #166534;
-   border: 1px solid #bbf7d0;
+   background: var(--success);
+   color: white;
+   border: 1px solid var(--success);
+   transition: all 0.3s ease;
 }
 
 .complete-button:hover:not(:disabled) {
-   background: #bbf7d0;
+   opacity: 0.9;
 }
 
 .uncomplete-button {
-   background: #fef3c7;
-   color: #92400e;
-   border: 1px solid #fde68a;
+   background: var(--warning);
+   color: white;
+   border: 1px solid var(--warning);
+   transition: all 0.3s ease;
 }
 
 .uncomplete-button:hover:not(:disabled) {
-   background: #fde68a;
+   opacity: 0.9;
 }
 
 .delete-button {
-   background: #fee2e2;
-   color: #991b1b;
-   border: 1px solid #fca5a5;
+   background: var(--error);
+   color: white;
+   border: 1px solid var(--error);
+   transition: all 0.3s ease;
 }
 
 .delete-button:hover:not(:disabled) {
-   background: #fca5a5;
+   opacity: 0.9;
 }
 
 /* Responsive design */
