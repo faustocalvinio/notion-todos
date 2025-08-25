@@ -3,19 +3,6 @@ import cinemaService from "../services/cinemaService";
 import "./CinemaForm.css";
 
 const CinemaForm = ({ onContentAdded }) => {
-   const plataformas = [
-      "Netflix",
-      "Amazon Prime",
-      "Disney+",
-      "HBO Max",
-      "Apple TV+",
-      "Hulu",
-      "Paramount+",
-      "YouTube Premium",
-      "Movistar+",
-      "Otro",
-   ];
-
    const [formData, setFormData] = useState({
       nombre: "",
       plataforma: "",
@@ -96,20 +83,16 @@ const CinemaForm = ({ onContentAdded }) => {
 
             <div className="form-group">
                <label htmlFor="plataforma">Plataforma</label>
-               <select
+               <input
+                  type="text"
                   id="plataforma"
                   name="plataforma"
                   value={formData.plataforma}
                   onChange={handleInputChange}
+                  placeholder="Ej: Netflix, Amazon Prime, Disney+..."
                   disabled={isLoading}
-               >
-                  <option value="">Selecciona una plataforma</option>
-                  {plataformas.map((plataforma) => (
-                     <option key={plataforma} value={plataforma}>
-                        {plataforma}
-                     </option>
-                  ))}
-               </select>
+               />
+               <small>Escribe el nombre de la plataforma (opcional)</small>
             </div>
 
             <div className="form-group">

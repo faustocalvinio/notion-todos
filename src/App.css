@@ -9,9 +9,13 @@
 }
 .nav-links {
    display: flex;
+   margin-top: 0px;
+   padding: 10px 0;
    gap: 1rem;
-   margin-left: auto;
    justify-content: center;
+   width: 100%;
+   align-items: center;
+   margin-bottom: 0px;
 }
 .nav-links li {
    list-style: none;
