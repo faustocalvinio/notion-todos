@@ -205,6 +205,76 @@ class CinemaService {
             };
         }
     }
+
+    async updateCinemaContent(contentId, updates) {
+        try {
+            const properties = {};
+
+            if (updates.nombre !== undefined) {
+                properties['Nombre'] = {
+                    title: [
+                        {
+                            text: {
+                                content: updates.nombre,
+                            },
+                        },
+                    ],
+                };
+            }
+
+            if (updates.plataforma !== undefined) {
+                if (updates.plataforma === null || updates.plataforma === '') {
+                    properties['Plataforma'] = { select: null };
+                } else {
+                    properties['Plataforma'] = {
+                        select: {
+                            name: updates.plataforma
+                        }
+                    };
+                }
+            }
+
+            if (updates.minuto !== undefined) {
+                if (updates.minuto === null || updates.minuto === '') {
+                    properties['Minuto'] = { number: null };
+                } else if (!isNaN(updates.minuto)) {
+                    properties['Minuto'] = {
+                        number: parseInt(updates.minuto)
+                    };
+                }
+            }
+
+            const updateData = { properties };
+
+            // Solo incluir icon si se especifica
+            if (updates.iconEmoji !== undefined) {
+                if (updates.iconEmoji === null || updates.iconEmoji === '') {
+                    updateData.icon = null;
+                } else {
+                    updateData.icon = {
+                        type: 'emoji',
+                        emoji: updates.iconEmoji
+                    };
+                }
+            }
+
+            const response = await this.makeRequest(`/pages/${contentId}`, {
+                method: 'PATCH',
+                body: JSON.stringify(updateData)
+            });
+
+            return {
+                success: true,
+                data: response,
+            };
+        } catch (error) {
+            console.error('Error updating cinema content:', error);
+            return {
+                success: false,
+                error: error.message,
+            };
+        }
+    }
 }
 
 export default new CinemaService();

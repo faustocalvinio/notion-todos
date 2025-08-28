@@ -8,6 +8,9 @@ export const CinemaPage = () => {
    const [isLoading, setIsLoading] = useState(false);
    const [error, setError] = useState("");
    const [deletingItems, setDeletingItems] = useState(new Set());
+   const [editingItem, setEditingItem] = useState(null);
+   const [editFormData, setEditFormData] = useState({});
+   const [updatingItems, setUpdatingItems] = useState(new Set());
 
    const handleContentAdded = (newContent) => {
       loadContent();
@@ -58,6 +61,86 @@ export const CinemaPage = () => {
       }
    };
 
+   const handleEditItem = (item) => {
+      setEditingItem(item.id);
+      setEditFormData({
+         nombre: item.nombre || "",
+         plataforma: item.plataforma || "",
+         minuto: item.minuto || "",
+         iconEmoji: item.icon || "",
+      });
+   };
+
+   const handleCancelEdit = () => {
+      setEditingItem(null);
+      setEditFormData({});
+   };
+
+   const handleEditInputChange = (e) => {
+      const { name, value } = e.target;
+      setEditFormData((prev) => ({
+         ...prev,
+         [name]: value,
+      }));
+   };
+
+   const handleSaveEdit = async (itemId) => {
+      if (!editFormData.nombre.trim()) {
+         setError("El nombre es obligatorio");
+         return;
+      }
+
+      setUpdatingItems((prev) => new Set(prev).add(itemId));
+
+      try {
+         const updates = {
+            nombre: editFormData.nombre.trim(),
+            plataforma: editFormData.plataforma.trim() || null,
+            minuto: editFormData.minuto.trim() || null,
+            iconEmoji: editFormData.iconEmoji.trim() || null,
+         };
+
+         const result = await cinemaService.updateCinemaContent(
+            itemId,
+            updates
+         );
+
+         if (result.success) {
+            // Actualizar el item en la lista local
+            setContent((prev) =>
+               prev.map((item) =>
+                  item.id === itemId
+                     ? {
+                          ...item,
+                          nombre: updates.nombre,
+                          plataforma: updates.plataforma,
+                          minuto: updates.minuto
+                             ? parseInt(updates.minuto)
+                             : null,
+                          icon: updates.iconEmoji,
+                       }
+                     : item
+               )
+            );
+
+            setEditingItem(null);
+            setEditFormData({});
+            setError("");
+         } else {
+            setError(`Error al actualizar: ${result.error}`);
+         }
+      } catch (error) {
+         console.error("Error updating item:", error);
+         setError(`Error inesperado al actualizar: ${error.message}`);
+      } finally {
+         setUpdatingItems((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete(itemId);
+            return newSet;
+         });
+      }
+   };
+
    useEffect(() => {
       loadContent();
    }, []);
@@ -92,8 +175,8 @@ export const CinemaPage = () => {
             {error && (
                <div className="error-message">
                   {error}
-                  <button onClick={loadContent} className="retry-button">
-                     Reintentar
+                  <button onClick={() => setError("")} className="retry-button">
+                     Cerrar
                   </button>
                </div>
             )}
@@ -110,36 +193,116 @@ export const CinemaPage = () => {
                         key={item.id}
                         className={`content-card ${
                            deletingItems.has(item.id) ? "deleting" : ""
-                        }`}
+                        } ${editingItem === item.id ? "editing" : ""}`}
                      >
-                        <div className="content-header">
-                           {item.icon && (
-                              <span className="content-icon">{item.icon}</span>
-                           )}
-                           <h3 className="content-title">{item.nombre}</h3>
-                           <button
-                              className="delete-button"
-                              onClick={() =>
-                                 handleDeleteItem(item.id, item.nombre)
-                              }
-                              disabled={deletingItems.has(item.id)}
-                              title="Eliminar item"
-                           >
-                              {deletingItems.has(item.id) ? "..." : "×"}
-                           </button>
-                        </div>
-                        <div className="content-details">
-                           {item.plataforma && (
-                              <span className="content-platform">
-                                 {item.plataforma}
-                              </span>
-                           )}
-                           {item.minuto && (
-                              <span className="content-duration">
-                                 {item.minuto} min
-                              </span>
-                           )}
-                        </div>
+                        {editingItem === item.id ? (
+                           // Modo edición
+                           <div className="edit-form">
+                              <div className="edit-header">
+                                 <input
+                                    type="text"
+                                    name="iconEmoji"
+                                    value={editFormData.iconEmoji}
+                                    onChange={handleEditInputChange}
+                                    placeholder="🎬"
+                                    maxLength={2}
+                                    className="edit-emoji-input"
+                                 />
+                                 <input
+                                    type="text"
+                                    name="nombre"
+                                    value={editFormData.nombre}
+                                    onChange={handleEditInputChange}
+                                    placeholder="Nombre"
+                                    className="edit-title-input"
+                                    required
+                                 />
+                              </div>
+                              <div className="edit-details">
+                                 <input
+                                    type="text"
+                                    name="plataforma"
+                                    value={editFormData.plataforma}
+                                    onChange={handleEditInputChange}
+                                    placeholder="Plataforma"
+                                    className="edit-platform-input"
+                                 />
+                                 <input
+                                    type="text"
+                                    name="minuto"
+                                    value={editFormData.minuto}
+                                    onChange={handleEditInputChange}
+                                    placeholder="Minutos"
+                                    className="edit-duration-input"
+                                 />
+                              </div>
+                              <div className="edit-actions">
+                                 <button
+                                    className="save-button"
+                                    onClick={() => handleSaveEdit(item.id)}
+                                    disabled={updatingItems.has(item.id)}
+                                 >
+                                    {updatingItems.has(item.id)
+                                       ? "Guardando..."
+                                       : "✓ Guardar"}
+                                 </button>
+                                 <button
+                                    className="cancel-button"
+                                    onClick={handleCancelEdit}
+                                    disabled={updatingItems.has(item.id)}
+                                 >
+                                    ✕ Cancelar
+                                 </button>
+                              </div>
+                           </div>
+                        ) : (
+                           // Modo vista
+                           <>
+                              <div className="content-header">
+                                 {item.icon && (
+                                    <span className="content-icon">
+                                       {item.icon}
+                                    </span>
+                                 )}
+                                 <h3 className="content-title">
+                                    {item.nombre}
+                                 </h3>
+                                 <div className="action-buttons">
+                                    <button
+                                       className="edit-button"
+                                       onClick={() => handleEditItem(item)}
+                                       title="Editar item"
+                                    >
+                                       ✏️
+                                    </button>
+                                    <button
+                                       className="delete-button"
+                                       onClick={() =>
+                                          handleDeleteItem(item.id, item.nombre)
+                                       }
+                                       disabled={deletingItems.has(item.id)}
+                                       title="Eliminar item"
+                                    >
+                                       {deletingItems.has(item.id)
+                                          ? "..."
+                                          : "×"}
+                                    </button>
+                                 </div>
+                              </div>
+                              <div className="content-details">
+                                 {item.plataforma && (
+                                    <span className="content-platform">
+                                       {item.plataforma}
+                                    </span>
+                                 )}
+                                 {item.minuto && (
+                                    <span className="content-duration">
+                                       {item.minuto} min
+                                    </span>
+                                 )}
+                              </div>
+                           </>
+                        )}
                      </div>
                   ))}
                </div>
